@@ -7,6 +7,9 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import TeamAvatar from "../components/TeamAvatar";
+import PlayerAutocomplete from "../components/PlayerAutocomplete";
+import { flexbox } from "@mui/system";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -18,6 +21,7 @@ export default function TeamsScreen() {
   const [teams, setTeams] = React.useState([]);
 
   useEffect(() => {
+    console.log("sd,mf");
     getAllTeams().then((response) => {
       setTeams(response.data);
     });
@@ -30,38 +34,23 @@ export default function TeamsScreen() {
           {/* <Item> */}
           <div style={{ display: "inline-block" }}>
             <p style={{ fontSize: "2rem" }}>Choose your team</p>
-            <Stack style={{ padding: "50px" }} direction="row" spacing={6}>
-              <div onClick={()=>console.log("sdf")}>
-                <Avatar
-                  sx={{ width: 100, height: 100 }}
-                  alt="Remy Sharp"
-                  src="/static/images/avatar/1.jpg"
-                />
-              </div>
+            {/* <Stack style={{ padding: "50px" }} direction="row" spacing={6}> */}
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {teams.map((team) => {
+                return <TeamAvatar teamName={team.team} />;
+              })}
+            </div>
 
-              <Avatar
-                sx={{ width: 100, height: 100 }}
-                alt="Travis Howard"
-                src="/static/images/avatar/2.jpg"
-              />
-              <Avatar
-                sx={{ width: 100, height: 100 }}
-                alt="Cindy Baker"
-                src="/static/images/avatar/3.jpg"
-              />
-            </Stack>
+            {/* </Stack> */}
           </div>
 
           {/* </Item> */}
         </Grid>
         <Grid item xs={4}>
+        <p style={{ fontSize: "2rem" }}>Choose your player</p>
           <div style={{ padding: "50px" }}>
-            <TextField
-              fullWidth
-              id="outlined-basic"
-              label="Choose player"
-              variant="outlined"
-            />
+          
+            <PlayerAutocomplete />
           </div>
           {/* <Item>xs=4</Item> */}
         </Grid>
