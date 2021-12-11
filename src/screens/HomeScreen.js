@@ -35,7 +35,7 @@ export default function TeamsScreen() {
         <Grid item xs={6}>
           {/* <Item> */}
           <div style={{ display: "inline-block" }}>
-            <p style={{ fontSize: "2rem" }}>Choose your team</p>
+            <p style={{ fontSize: "2rem", color: '#767676' }}>CHOOSE YOUR TEAM</p>
             {/* <Stack style={{ padding: "50px" }} direction="row" spacing={6}> */}
             <div style={{ display: "flex", flexWrap: "wrap" }}>
               {teams.map((team) => {
@@ -53,7 +53,9 @@ export default function TeamsScreen() {
           </div>
           {/* {selectedTeam && <TeamInformationCard selectedTeam={selectedTeam} />} */}
           <div style={{ marginTop: "2rem" }}>
-            <p style={{ fontSize: "1rem" }}>Selected Team: </p>
+            {selectedTeam && (
+              <p style={{ fontSize: "1rem" }}>Selected Team: </p>
+            )}
 
             {selectedTeam && (
               <TeamInformationAccordion selectedTeam={selectedTeam} />
@@ -63,7 +65,7 @@ export default function TeamsScreen() {
           {/* </Item> */}
         </Grid>
         <Grid item xs={6}>
-          <p style={{ fontSize: "2rem" }}>Choose your player</p>
+          <p style={{ fontSize: "2rem", color: '#767676' }}>CHOOSE YOUR PLAYER</p>
           <div style={{ padding: "50px" }}>
             <PlayerAutocomplete />
           </div>

@@ -36,7 +36,7 @@ const Layout = () => {
   };
   return (
     <div>
-      <AppBar position="sticky" style={{ background: "#008080" }}>
+      <AppBar position="sticky" style={{ background: "#02055A" }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -46,8 +46,8 @@ const Layout = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography style={{ flexGrow: 1 }} variant="h5">
-            Football Agent
+          <Typography style={{ flexGrow: 1 }} variant="h3">
+            PREDICT
           </Typography>
         </Toolbar>
       </AppBar>
