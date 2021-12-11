@@ -25,9 +25,9 @@ function stringAvatar(name, isClickedFlag, selectedTeam) {
   return {
     sx: {
       bgcolor:
-        isClickedFlag && selectedTeam === name ? "grey" : stringToColor(name),
-      width: 100,
-      height: 100,
+        isClickedFlag && selectedTeam.team === name ? "grey" : stringToColor(name),
+      width: isClickedFlag && selectedTeam.team === name ? 150 : 100,
+      height: isClickedFlag && selectedTeam.team === name ? 150 : 100,
     },
     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };
@@ -45,7 +45,7 @@ export default function TeamAvatar(props) {
     <div style={{ flex: "1 0 10%", margin: "5px" }}>
       <Avatar
         onClick={handleAvatarClick}
-        {...stringAvatar(props.teamName, isClicked)}
+        {...stringAvatar(props.teamName, isClicked, props.selectedTeam)}
       />
     </div>
   );
