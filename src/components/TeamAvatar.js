@@ -25,7 +25,9 @@ function stringAvatar(name, isClickedFlag, selectedTeam) {
   return {
     sx: {
       bgcolor:
-        isClickedFlag && selectedTeam.team === name ? "grey" : stringToColor(name),
+        isClickedFlag && selectedTeam.team === name
+          ? "grey"
+          : stringToColor(name),
       width: isClickedFlag && selectedTeam.team === name ? 150 : 100,
       height: isClickedFlag && selectedTeam.team === name ? 150 : 100,
     },

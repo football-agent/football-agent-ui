@@ -4,7 +4,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getAllPlayers } from "../rest/TeamService";
 
-export default function PlayerAutocomplete() {
+export default function PlayerAutocomplete(props) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
@@ -30,6 +30,10 @@ export default function PlayerAutocomplete() {
     }
   }, [open]);
 
+  const onPlayerChange=(event, value)=>{
+    props.onPlayerChange(value)
+  }
+
   return (
     <Autocomplete
       id="asynchronous-demo"
@@ -46,6 +50,7 @@ export default function PlayerAutocomplete() {
       getOptionLabel={(option) => option.player}
       options={options}
       loading={loading}
+      onChange={onPlayerChange}
       renderInput={(params) => (
         <TextField
           {...params}

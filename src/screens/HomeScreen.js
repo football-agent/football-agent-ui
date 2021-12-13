@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import TeamAvatar from "../components/TeamAvatar";
 import PlayerAutocomplete from "../components/PlayerAutocomplete";
 import TeamInformationAccordion from "../components/TeamInformationAccordion";
+import PredictionDialog from "../components/PredictionDialogue";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -18,6 +19,8 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function TeamsScreen() {
   const [teams, setTeams] = React.useState([]);
   const [selectedTeam, setSelectedTeam] = React.useState(null);
+  const [isDialogueOpen, setIsDialogueOpen] = React.useState(false);
+  const [selectedPlayer, setSelectedPlayer] = React.useState(null);
 
   const handleTeamSelect = (teamName) => {
     setSelectedTeam(teams.filter((team) => team.team === teamName)[0]);
@@ -29,13 +32,27 @@ export default function TeamsScreen() {
     });
   }, []);
 
+  const handlePredictButtonClick = () => {
+    setIsDialogueOpen(true);
+  };
+
+  const handleDialogueClose = () => {
+    setIsDialogueOpen(false);
+  };
+
+  const onPlayerChange = (value) => {
+    setSelectedPlayer(value);
+  };
+
   return (
     <div>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           {/* <Item> */}
           <div style={{ display: "inline-block" }}>
-            <p style={{ fontSize: "2rem", color: '#767676' }}>CHOOSE YOUR TEAM</p>
+            <p style={{ fontSize: "2rem", color: "#767676" }}>
+              CHOOSE YOUR TEAM
+            </p>
             {/* <Stack style={{ padding: "50px" }} direction="row" spacing={6}> */}
             <div style={{ display: "flex", flexWrap: "wrap" }}>
               {teams.map((team) => {
@@ -65,13 +82,24 @@ export default function TeamsScreen() {
           {/* </Item> */}
         </Grid>
         <Grid item xs={6}>
-          <p style={{ fontSize: "2rem", color: '#767676' }}>CHOOSE YOUR PLAYER</p>
+          <p style={{ fontSize: "2rem", color: "#767676" }}>
+            CHOOSE YOUR PLAYER
+          </p>
           <div style={{ padding: "50px" }}>
-            <PlayerAutocomplete />
+            <PlayerAutocomplete onPlayerChange={onPlayerChange} />
           </div>
-          <Button variant="contained">Predict</Button>
+          <Button variant="contained" onClick={handlePredictButtonClick}>
+            Predict
+          </Button>
           {/* <Item>xs=4</Item> */}
         </Grid>
+        {selectedPlayer && (
+          <PredictionDialog
+            isDialogueOpen={isDialogueOpen}
+            handleDialogueClose={handleDialogueClose}
+            selectedPlayer={selectedPlayer}
+          />
+        )}
       </Grid>
     </div>
   );
