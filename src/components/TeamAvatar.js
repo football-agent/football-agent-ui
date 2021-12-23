@@ -28,8 +28,8 @@ function stringAvatar(name, isClickedFlag, selectedTeam) {
         isClickedFlag && selectedTeam.team === name
           ? "grey"
           : stringToColor(name),
-      width: isClickedFlag && selectedTeam.team === name ? 150 : 100,
-      height: isClickedFlag && selectedTeam.team === name ? 150 : 100,
+      width: isClickedFlag && selectedTeam.team === name ? 100 : 70,
+      height: isClickedFlag && selectedTeam.team === name ? 100 : 70,
     },
     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };

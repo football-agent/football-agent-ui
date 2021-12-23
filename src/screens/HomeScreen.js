@@ -47,7 +47,7 @@ export default function TeamsScreen() {
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           {/* <Item> */}
           <div style={{ display: "inline-block" }}>
             <p style={{ fontSize: "2rem", color: "#767676" }}>
@@ -81,14 +81,15 @@ export default function TeamsScreen() {
 
           {/* </Item> */}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <p style={{ fontSize: "2rem", color: "#767676" }}>
             CHOOSE YOUR PLAYER
           </p>
           <div style={{ padding: "50px" }}>
             <PlayerAutocomplete onPlayerChange={onPlayerChange} />
           </div>
-          <Button variant="contained" onClick={handlePredictButtonClick}>
+          
+          <Button variant="contained" onClick={handlePredictButtonClick} disabled={!selectedPlayer}>
             Predict
           </Button>
           {/* <Item>xs=4</Item> */}
