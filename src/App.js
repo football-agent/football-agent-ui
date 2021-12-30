@@ -6,7 +6,8 @@ import SelectionScreen from "./screens/SelectionScreen";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ 
+      backgroundImage: "url(/PlayerAutocomplete.jpeg)" }} >
       <BrowserRouter>
         <Layout />
         <Routes>

@@ -13,16 +13,17 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PlaceIcon from "@mui/icons-material/Place";
 
+
 const Layout = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   function toggleDrawer() {
     setDrawerOpen(!drawerOpen);
   }
-
+  
   const list = () => {
     return (
-      <List style={{ backgroundColor: "#f2f2f2" }}>
+      <List style={{ backgroundImage: "#f2f2f2" }}>
         <Link to={"/"} style={{ textDecoration: "none" }}>
           <ListItem button onClick={() => toggleDrawer()}>
             <ListItemIcon>
@@ -35,8 +36,9 @@ const Layout = () => {
     );
   };
   return (
-    <div>
-      <AppBar position="sticky" style={{ background: "#02055A" }}>
+    <div >
+      
+      <AppBar position="sticky" style={{background: "transparent" }}  >
         <Toolbar>
           <IconButton
             edge="start"
@@ -46,7 +48,7 @@ const Layout = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography style={{ flexGrow: 1 }} variant="h3">
+          <Typography style = {{flexGrow: 1, color:"#ffffff", fontFamily:"cursive", textAlign:"left", fontSize:"1.5rem"}}>
             PREDICT
           </Typography>
         </Toolbar>

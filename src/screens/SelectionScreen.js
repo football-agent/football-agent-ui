@@ -4,6 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SelectionStepper from "../components/SelectionStepper";
 import { getAllTeams } from "../rest/TeamService";
 
+
 export default function SelectionScreen() {
   const [isStartPredictButtonClicked, setIsStartPredictButtonClicked] =
     React.useState(false);
@@ -17,13 +18,14 @@ export default function SelectionScreen() {
   };
 
   return (
-    <div>
-        <p style={{fontSize: '2rem', color: 'grey'}}>Revolutionizing value quantification</p>
+    <div >
+        <p style={{fontSize: '2rem', fontFamily:"cursive", color: 'white'}}>Revolutionizing value quantification</p>
       <div
         style={{
           top: isStartPredictButtonClicked ? "70%" : "45%",
           left: "45%",
           position: "absolute",
+          backgroundImage: "url(/PlayerAutocomplete.jpeg)" 
         }}
       >
         <Button
