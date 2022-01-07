@@ -12,7 +12,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PlaceIcon from "@mui/icons-material/Place";
-
+import icon from "../../Images/fb-icon.png";
 
 const Layout = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -20,7 +20,7 @@ const Layout = () => {
   function toggleDrawer() {
     setDrawerOpen(!drawerOpen);
   }
-  
+
   const list = () => {
     return (
       <List style={{ backgroundImage: "#f2f2f2" }}>
@@ -36,9 +36,8 @@ const Layout = () => {
     );
   };
   return (
-    <div >
-      
-      <AppBar position="sticky" style={{background: "transparent" }}  >
+    <div>
+      <AppBar position="sticky" style={{ background: "white" }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -46,11 +45,33 @@ const Layout = () => {
             aria-label="menu"
             onClick={() => toggleDrawer()}
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
-          <Typography style = {{flexGrow: 1, color:"#ffffff", fontFamily:"cursive", textAlign:"left", fontSize:"1.5rem"}}>
-            PREDICT
-          </Typography>
+          <img src={icon} width={80} height={80}></img>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <Typography
+              style={{
+                flexGrow: 1,
+                color: "#455d58",
+                fontFamily: "MyFont",
+                textAlign: "center",
+                fontSize: "1.5rem",
+              }}
+            >
+              THE
+            </Typography>
+            <Typography
+              style={{
+                flexGrow: 1,
+                color: "#455d58",
+                fontFamily: "MyFont",
+                textAlign: "left",
+                fontSize: "1.5rem",
+              }}
+            >
+              PREDICTOR
+            </Typography>
+          </div>
         </Toolbar>
       </AppBar>
 

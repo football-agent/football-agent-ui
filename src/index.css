@@ -5,9 +5,21 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #faf7f2;
+  /* background: url("Images/fb-background.jpg") no-repeat center center fixed;  */
+  /* background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.4) 100%), url("Images/fb-background.jpg")  no-repeat center center fixed; */
+  background-size: cover;
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: 'MyFont';
+  src: local('MyFont'), url(./Fonts/Recoleta-SemiBold.woff) format('woff');
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
 }

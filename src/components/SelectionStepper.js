@@ -15,7 +15,6 @@ export default function SelectionStepper(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [selectedTeam, setSelectedTeam] = React.useState(null);
-  const [selectedPlayer, setSelectedPlayer] = React.useState(null);
   const navigate = useNavigate();
 
 
@@ -37,7 +36,7 @@ export default function SelectionStepper(props) {
   };
 
   const onPlayerChange = (value) => {
-    setSelectedPlayer(value);
+    props.handlePlayerSelect(value)
   };
 
   const handleTeamSelect = (teamName) => {
@@ -106,9 +105,11 @@ export default function SelectionStepper(props) {
       sx={{
         width: "60%",
         display: "inline-block",
-        background: "#e6d1f2",
+        background: "#faf7f2",
         padding: "1rem",
-        borderRadius: "1rem",
+        borderRadius: "10px",
+        border: '4px solid',
+        borderColor: '#455d58'
       }}
     >
       <Stepper activeStep={activeStep}>
