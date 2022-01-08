@@ -46,7 +46,7 @@ export default function SelectionStepper(props) {
   const getStepperStepContent = (activeStep) => {
     if (activeStep === 0) {
       return (
-        <React.Fragment>
+        <React.Fragment >
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {props.teams.map((team) => {
               return (
@@ -58,17 +58,19 @@ export default function SelectionStepper(props) {
               );
             })}
           </div>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }} >
             <Button
               color="inherit"
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
+              
+              
             >
               Back
             </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleNext} variant="contained" color="success">
+            <Box sx={{ flex: "1 1 auto" }}   />
+            <Button onClick={handleNext} variant="contained" color="success" style={{backgroundColor:"#455d58", color:"white"}}>
               {activeStep === steps.length - 1 ? "Predict" : "Next"}
             </Button>
           </Box>
@@ -87,11 +89,12 @@ export default function SelectionStepper(props) {
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
+              style={{backgroundColor:"#455d58", color:"white"}}
             >
               Back
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleNext} variant="contained" color="success">
+            <Button onClick={handleNext} variant="contained" color="success" style={{backgroundColor:"#455d58", color:"white"}}>
               {activeStep === steps.length - 1 ? "Predict" : "Next"}
             </Button>
           </Box>

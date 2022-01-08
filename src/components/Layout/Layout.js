@@ -47,15 +47,15 @@ const Layout = () => {
           >
             {/* <MenuIcon /> */}
           </IconButton>
-          <img src={icon} width={80} height={80}></img>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <img src={icon} width={50} height={50}></img>
+          <div style={{ marginLeft: "20px", display: "flex", flexDirection: "column" }}>
             <Typography
               style={{
                 flexGrow: 1,
                 color: "#455d58",
                 fontFamily: "MyFont",
                 textAlign: "center",
-                fontSize: "1.5rem",
+                fontSize: "1.2rem",
               }}
             >
               THE
@@ -66,7 +66,7 @@ const Layout = () => {
                 color: "#455d58",
                 fontFamily: "MyFont",
                 textAlign: "left",
-                fontSize: "1.5rem",
+                fontSize: "1.2rem",
               }}
             >
               PREDICTOR
