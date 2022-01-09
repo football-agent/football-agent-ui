@@ -13,6 +13,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PlaceIcon from "@mui/icons-material/Place";
 import icon from "../../Images/fb-icon.png";
+import Button from "@mui/material/Button";
+
 
 const Layout = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -37,6 +39,7 @@ const Layout = () => {
   };
   return (
     <div>
+      {/* Change padding  */}
       <AppBar position="sticky" style={{ background: "white" }}>
         <Toolbar>
           <IconButton
@@ -47,15 +50,15 @@ const Layout = () => {
           >
             {/* <MenuIcon /> */}
           </IconButton>
-          <img src={icon} width={50} height={50}></img>
-          <div style={{ marginLeft: "20px", display: "flex", flexDirection: "column" }}>
+          <img src={icon} width={80} height={80}></img>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             <Typography
               style={{
                 flexGrow: 1,
                 color: "#455d58",
                 fontFamily: "MyFont",
                 textAlign: "center",
-                fontSize: "1.2rem",
+                fontSize: "1.5rem",
               }}
             >
               THE
@@ -66,12 +69,24 @@ const Layout = () => {
                 color: "#455d58",
                 fontFamily: "MyFont",
                 textAlign: "left",
-                fontSize: "1.2rem",
+                fontSize: "1.5rem",
               }}
             >
               PREDICTOR
             </Typography>
+        
           </div>
+          <Button
+             style={{backgroundColor:"#455d58", color:"white", position: 'absolute', right: '20px'}}
+              color="inherit"
+             
+              // onClick={handleBack}
+            
+              
+              
+            >
+              Contact US
+            </Button>
         </Toolbar>
       </AppBar>
 
