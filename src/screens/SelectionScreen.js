@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import SelectionStepper from "../components/SelectionStepper";
 import { getAllTeams } from "../rest/TeamService";
 import { display } from "@mui/system";
 import { AlignHorizontalCenter } from "@mui/icons-material";
+import { useSelectionContext } from '../context/SelectionProvider'
+
+
 
 export default function SelectionScreen() {
   const [isStartPredictButtonClicked, setIsStartPredictButtonClicked] =
@@ -12,6 +15,9 @@ export default function SelectionScreen() {
   const [teams, setTeams] = React.useState([]);
   const [selectedTeam, setSelectedTeam] = React.useState(null);
   const [selectedPlayer, setSelectedPlayer] = React.useState(null);
+  // const context = useContext(SelectionContext)
+  const {dispatch}= useSelectionContext()
+
 
   const handleStartPredictButtonClick = () => {
     setIsStartPredictButtonClicked(true);
@@ -22,10 +28,14 @@ export default function SelectionScreen() {
 
   const handleTeamSelect = (value) => {
     setSelectedTeam(value);
+    dispatch({type: 'selectedTeamUpdate'}, value)
   };
 
   const handlePlayerSelect = (value) => {
     setSelectedPlayer(value);
+    // context?.updateSelectedPlayer(value)
+    dispatch({type: 'selectedPlayerUpdate'}, value)
+
   };
 
   return (
@@ -72,7 +82,7 @@ export default function SelectionScreen() {
       <div
         style={{
           
-          left: "40%",
+          left: "43%",
           position: "absolute",
           marginTop:"5%", 
           // backgroundImage: "url(/PlayerAutocomplete.jpeg)"

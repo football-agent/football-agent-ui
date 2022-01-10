@@ -1,17 +1,15 @@
-import React, { useEffect }  from 'react'
-import { useCount } from '../context/SelectionContext'
+import React, { useContext } from "react";
+import { useSelectionContext } from '../context/SelectionProvider'
+
 
 export default function PredictedValuesScreen() {
-    const {stuff} = useCount()   
-    
-    useEffect(() => {
-        console.log(stuff)
-      }, []);
-
-    
-    return (
-        <div>
-            
-        </div>
-    )
+    const {
+        state
+      } = useSelectionContext()
+  return (
+    <div>
+      <p>Selected Player: {state.selectedPlayer.player}</p>
+      <p>Selected Team: {state.selectedTeam.team}</p>
+    </div>
+  );
 }

@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TeamsScreen from "./screens/HomeScreen";
 import SelectionScreen from "./screens/SelectionScreen";
 import PredictedValuesScreen from "./screens/PredictedValuesScreen";
+import { SelectionProvider } from "./context/SelectionProvider";
 
 function App() {
   return (
@@ -11,8 +12,9 @@ function App() {
       <BrowserRouter>
         <Layout />
         <Routes>
-          <Route path="/" element={<SelectionScreen/>} />
-          <Route path="/test" element={<PredictedValuesScreen/>} />
+          
+          <Route path="/" element={<SelectionProvider><SelectionScreen/> </SelectionProvider>} />
+          <Route path="/test" element={<SelectionProvider><PredictedValuesScreen/></SelectionProvider>} />
         </Routes>
       </BrowserRouter>
     </div>
