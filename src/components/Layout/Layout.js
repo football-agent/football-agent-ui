@@ -14,10 +14,15 @@ import ListItemText from "@mui/material/ListItemText";
 import PlaceIcon from "@mui/icons-material/Place";
 import icon from "../../Images/fb-icon.png";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+
+
 
 
 const Layout = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const navigate = useNavigate();
+
 
   function toggleDrawer() {
     setDrawerOpen(!drawerOpen);
@@ -51,7 +56,7 @@ const Layout = () => {
             {/* <MenuIcon /> */}
           </IconButton>
           <img src={icon} width={80} height={80}></img>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div onClick={()=>navigate('/')} style={{ display: "flex", flexDirection: "column" }}>
             <Typography
               style={{
                 flexGrow: 1,
