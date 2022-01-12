@@ -15,14 +15,12 @@ import PlaceIcon from "@mui/icons-material/Place";
 import icon from "../../Images/fb-icon.png";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-
-
-
+import PersonIcon from "@mui/icons-material/Person";
+import ProfileMenu from "../ProfileMenu";
 
 const Layout = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const navigate = useNavigate();
-
 
   function toggleDrawer() {
     setDrawerOpen(!drawerOpen);
@@ -56,7 +54,10 @@ const Layout = () => {
             {/* <MenuIcon /> */}
           </IconButton>
           <img src={icon} width={80} height={80}></img>
-          <div onClick={()=>navigate('/')} style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            onClick={() => navigate("/")}
+            style={{ display: "flex", flexDirection: "column" }}
+          >
             <Typography
               style={{
                 flexGrow: 1,
@@ -79,19 +80,24 @@ const Layout = () => {
             >
               PREDICTOR
             </Typography>
-        
           </div>
-          <Button
-             style={{backgroundColor:"#455d58", color:"white", position: 'absolute', right: '20px'}}
-              color="inherit"
-             
-              // onClick={handleBack}
-            
-              
-              
-            >
-              Contact US
-            </Button>
+          {/* <Button
+            style={{
+              backgroundColor: "#455d58",
+              color: "white",
+              position: "absolute",
+              right: "20px",
+            }}
+            color="inherit"
+
+            // onClick={handleBack}
+          >
+            Contact US
+          </Button> */}
+
+          <div style={{ position: "absolute", right: "20px" }}>
+            <ProfileMenu />
+          </div>
         </Toolbar>
       </AppBar>
 
