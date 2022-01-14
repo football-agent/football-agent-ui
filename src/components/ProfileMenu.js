@@ -11,16 +11,33 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import LinearProgress from "@mui/material/LinearProgress";
-import { authenticateUser } from "../rest/UserService";
+import { authenticateUser, registerUser } from "../rest/UserService";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [loginModalOpen, setLoginModalOpen] = React.useState(false);
+  const [registerModalOpen, setRegisterModalOpen] = React.useState(false);
   const [showSpinner, setShowSpinner] = React.useState(false);
   const [username, setUsername] = React.useState(null);
   const [password, setPassword] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [snackBarOpen, setSnackBarOpen] = React.useState(false);
   const navigate = useNavigate();
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackBarOpen(false);
+  };
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -39,7 +56,7 @@ export default function ProfileMenu() {
       };
       authenticateUser(userLoginRequest).then((response) => {
         localStorage.setItem("token", `Bearer ${response.data.token}`);
-        localStorage.setItem("username", username)
+        localStorage.setItem("username", username);
         setLoginModalOpen(false);
         setShowSpinner(false);
       });
@@ -54,6 +71,14 @@ export default function ProfileMenu() {
     setPassword(event.target.value);
   };
 
+  const handleEmailFieldChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleRegisterModalClose = () => {
+    setRegisterModalOpen(false);
+  };
+
   const handleLoginModalClose = () => {
     setLoginModalOpen(false);
   };
@@ -63,11 +88,25 @@ export default function ProfileMenu() {
     handleClose();
   };
 
-  const handleMySelectionsClick=()=>{
-    handleClose()
-    navigate(`/saved-selections/${localStorage.getItem("username")}`)
-  }
+  const handleMySelectionsClick = () => {
+    handleClose();
+    navigate(`/saved-selections/${localStorage.getItem("username")}`);
+  };
 
+  const handleUserRegister = () => {
+    let userObject = {
+      username: username,
+      password: password,
+      email: email,
+    };
+    registerUser(userObject).then(() => {
+      setSnackBarOpen(true)
+      setUsername(null);
+      setPassword(null);
+      setShowSpinner(false);
+      setRegisterModalOpen(false);
+    });
+  };
   return (
     <div>
       {/* <Button
@@ -95,7 +134,7 @@ export default function ProfileMenu() {
       >
         {localStorage.getItem("token") && (
           <MenuItem onClick={handleMySelectionsClick}>
-            My Selections
+            SAVED SELECTIONS
           </MenuItem>
         )}
         {localStorage.getItem("token") && (
@@ -103,6 +142,11 @@ export default function ProfileMenu() {
         )}
         {!localStorage.getItem("token") && (
           <MenuItem onClick={() => setLoginModalOpen(true)}>LOGIN</MenuItem>
+        )}
+        {!localStorage.getItem("token") && (
+          <MenuItem onClick={() => setRegisterModalOpen(true)}>
+            REGISTER
+          </MenuItem>
         )}
       </Menu>
 
@@ -155,6 +199,82 @@ export default function ProfileMenu() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={registerModalOpen}
+        aria-labelledby="form-dialog-title"
+        onClose={handleRegisterModalClose}
+      >
+        <DialogTitle id="form-dialog-title">Register!</DialogTitle>
+        <DialogContent>
+          {showSpinner && <LinearProgress />}
+          <DialogContentText>Enter Details!</DialogContentText>
+          <TextField
+            onChange={handleusernameFieldChange}
+            autoFocus
+            margin="dense"
+            id="username"
+            label="Username"
+            type="name"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            onChange={handlePasswordFieldChange}
+            autoFocus
+            margin="dense"
+            id="password"
+            label="Password"
+            type="password"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            onChange={handleEmailFieldChange}
+            autoFocus
+            margin="dense"
+            id="email"
+            label="Email"
+            type="email"
+            fullWidth
+            variant="outlined"
+          />
+        </DialogContent>
+        <DialogActions>
+          {/* <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button> */}
+          <Button
+            onClick={handleUserRegister}
+            color="primary"
+            variant="outlined"
+            disabled={
+              username === null ||
+              username === "" ||
+              password === null ||
+              password === "" ||
+              email === null ||
+              email === ""
+            }
+          >
+            REGISTER
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={snackBarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackBarClose}
+      >
+        <Alert
+          onClose={handleSnackBarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          User registered successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const registerUser = () => {
+export const registerUser = (userObject) => {
   const url = "http://localhost:8080/v1/football_agent/user/register";
-  return axios.get(url);
+  return axios.post(url, userObject);
 };
 
 export const authenticateUser = (userLoginRequest) => {
