@@ -10,20 +10,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from "@mui/material/LinearProgress";
 import { authenticateUser } from "../rest/UserService";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [loginModalOpen, setLoginModalOpen]= React.useState(false)
-  const [showSpinner, setShowSpinner]= React.useState(false)
-  const [username, setUsername]= React.useState(null)
-  const [password, setPassword] = React.useState(null)
+  const [loginModalOpen, setLoginModalOpen] = React.useState(false);
+  const [showSpinner, setShowSpinner] = React.useState(false);
+  const [username, setUsername] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
   const navigate = useNavigate();
-
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -35,16 +32,17 @@ export default function ProfileMenu() {
 
   const handleLoginLogout = () => {
     if (!localStorage.getItem("token")) {
-        setShowSpinner(true)
-        const userLoginRequest = {
-            username: username,
-            password: password
-        }
-        authenticateUser(userLoginRequest).then(response=>{
-            localStorage.setItem('token', `Bearer ${response.data.token}`)
-            setLoginModalOpen(false)
-            setShowSpinner(false)
-        })
+      setShowSpinner(true);
+      const userLoginRequest = {
+        username: username,
+        password: password,
+      };
+      authenticateUser(userLoginRequest).then((response) => {
+        localStorage.setItem("token", `Bearer ${response.data.token}`);
+        localStorage.setItem("username", username)
+        setLoginModalOpen(false);
+        setShowSpinner(false);
+      });
     }
   };
 
@@ -56,15 +54,19 @@ export default function ProfileMenu() {
     setPassword(event.target.value);
   };
 
-  const handleLoginModalClose=()=>{
-      setLoginModalOpen(false)
-  }
+  const handleLoginModalClose = () => {
+    setLoginModalOpen(false);
+  };
 
-  const handleLogout=()=>{
-      localStorage.removeItem('token')
-      handleClose()
-  }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    handleClose();
+  };
 
+  const handleMySelectionsClick=()=>{
+    handleClose()
+    navigate(`/saved-selections/${localStorage.getItem("username")}`)
+  }
 
   return (
     <div>
@@ -92,24 +94,27 @@ export default function ProfileMenu() {
         }}
       >
         {localStorage.getItem("token") && (
-          <MenuItem onClick={()=>navigate(`/selections/${username}`)}>My Selections</MenuItem>
+          <MenuItem onClick={handleMySelectionsClick}>
+            My Selections
+          </MenuItem>
         )}
-        {
-            localStorage.getItem('token') && <MenuItem  onClick={handleLogout}>LOGOUT</MenuItem>
-        }
-        {
-            !localStorage.getItem("token") &&  <MenuItem onClick={()=>setLoginModalOpen(true)}>LOGIN</MenuItem>
-        }
-          
+        {localStorage.getItem("token") && (
+          <MenuItem onClick={handleLogout}>LOGOUT</MenuItem>
+        )}
+        {!localStorage.getItem("token") && (
+          <MenuItem onClick={() => setLoginModalOpen(true)}>LOGIN</MenuItem>
+        )}
       </Menu>
 
-      <Dialog open={loginModalOpen} aria-labelledby="form-dialog-title" onClose={handleLoginModalClose}>
+      <Dialog
+        open={loginModalOpen}
+        aria-labelledby="form-dialog-title"
+        onClose={handleLoginModalClose}
+      >
         <DialogTitle id="form-dialog-title">Login!</DialogTitle>
         <DialogContent>
           {showSpinner && <LinearProgress />}
-          <DialogContentText>
-            Enter username and password!
-          </DialogContentText>
+          <DialogContentText>Enter username and password!</DialogContentText>
           <TextField
             onChange={handleusernameFieldChange}
             autoFocus

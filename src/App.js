@@ -15,7 +15,7 @@ function App() {
         <Routes>
           
           <Route path="/" element={<SelectionProvider><SelectionScreen/> </SelectionProvider>} />
-          <Route path="/test" element={<SelectionProvider><PredictedValuesScreen/></SelectionProvider>} />
+          <Route path="/prediction" element={<SelectionProvider><PredictedValuesScreen/></SelectionProvider>} />
           <Route path="/saved-selections/:username" element={<SelectionProvider><SavedSelectionsScreen/></SelectionProvider>} />
           
         </Routes>

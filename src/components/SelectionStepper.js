@@ -24,7 +24,7 @@ export default function SelectionStepper(props) {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
     if (activeStep === 1) {
-      navigate("/test");
+      navigate("/prediction");
     }
   };
 
