@@ -12,6 +12,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import LinearProgress from '@mui/material/LinearProgress';
 import { authenticateUser } from "../rest/UserService";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function ProfileMenu() {
@@ -20,6 +22,8 @@ export default function ProfileMenu() {
   const [showSpinner, setShowSpinner]= React.useState(false)
   const [username, setUsername]= React.useState(null)
   const [password, setPassword] = React.useState(null)
+  const navigate = useNavigate();
+
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -88,7 +92,7 @@ export default function ProfileMenu() {
         }}
       >
         {localStorage.getItem("token") && (
-          <MenuItem onClick={handleClose}>My Selections</MenuItem>
+          <MenuItem onClick={()=>navigate(`/selections/${username}`)}>My Selections</MenuItem>
         )}
         {
             localStorage.getItem('token') && <MenuItem  onClick={handleLogout}>LOGOUT</MenuItem>

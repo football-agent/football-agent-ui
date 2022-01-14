@@ -5,6 +5,7 @@ import TeamsScreen from "./screens/HomeScreen";
 import SelectionScreen from "./screens/SelectionScreen";
 import PredictedValuesScreen from "./screens/PredictedValuesScreen";
 import { SelectionProvider } from "./context/SelectionProvider";
+import SavedSelectionsScreen from "./screens/SavedSelectionsScreen";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           
           <Route path="/" element={<SelectionProvider><SelectionScreen/> </SelectionProvider>} />
           <Route path="/test" element={<SelectionProvider><PredictedValuesScreen/></SelectionProvider>} />
+          <Route path="/saved-selections/:username" element={<SelectionProvider><SavedSelectionsScreen/></SelectionProvider>} />
+          
         </Routes>
       </BrowserRouter>
     </div>
