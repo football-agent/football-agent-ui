@@ -11,8 +11,14 @@ export const authenticateUser = (userLoginRequest) => {
 };
 
 export const addSelection = (username, selectionObject) => {
+    const config = {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      };
+
   const url = `http://localhost:8080/v1/football_agent/user/${username}/add_selection`;
-  return axios.post(url, selectionObject);
+  return axios.post(url, selectionObject, config);
 };
 
 export const getAllSelections = (username) => {
