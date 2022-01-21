@@ -53,7 +53,7 @@ const Layout = () => {
           >
             {/* <MenuIcon /> */}
           </IconButton>
-          <img src={icon} width={80} height={80}></img>
+          <img src={icon} width={60} height={60}></img>
           <div
             onClick={() => navigate("/")}
             style={{ display: "flex", flexDirection: "column" }}
