@@ -142,12 +142,12 @@ export default function PredictedValuesScreen() {
             }}
           >
             <Avatar
+              src={state.selectedPlayer.photo}
               style={{ marginTop: "20px" }}
               sx={{ bgcolor: "red", width: 200, height: 230 }}
               variant="square"
-            >
-              N
-            </Avatar>
+           />
+            
             <div style={{ marginLeft: '10px' }}>
               <p
                 style={{
