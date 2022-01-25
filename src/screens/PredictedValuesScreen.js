@@ -25,6 +25,7 @@ import "react-svg-radar-chart/build/css/index.css";
 
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { getPlayerbyName } from "../rest/TeamService";
 
 ChartJS.register(
   ArcElement,
@@ -84,49 +85,53 @@ export const dataRadar = {
   ],
 };
 
-const dataRadar2 = [
-  {
+
+const getPentagonData = (selectedPlayer, playerOnRefresh) => {
+  let data = [];
+  let dataObject = {
     data: {
-      battery: 0.7,
-      design: 0.8,
-      useful: 0.9,
-      speed: 0.67,
-      weight: 0.8,
+        shooting: selectedPlayer.shooting/100,
+        passing: selectedPlayer.passing/100,
+        dribbling: selectedPlayer.dribbling/100,
+        defending: selectedPlayer.defending/100,
+        physic: selectedPlayer.physic/100
     },
     meta: { color: "blue" },
-  },
-  {
-    data: {
-      battery: 0.6,
-      design: 0.85,
-      useful: 0.5,
-      speed: 0.6,
-      weight: 0.7,
-    },
-    meta: { color: "red" },
-  },
-];
+  };
+
+  data.push(dataObject);
+  return data;
+};
 
 const captions = {
   // columns
-  battery: "Battery Capacity",
-  design: "Design",
-  useful: "Usefulness",
-  speed: "Speed",
-  weight: "Weight",
+  shooting: "Shooting",
+  dribbling: "Dribbling",
+  passing: "Passing",
+  physic: "Physic",
 };
 
 const someOptions = {
   captionProps: () => ({
     className: "caption",
     textAnchor: "middle",
-    fontSize: 15,
+    fontSize: 10,
     fontFamily: "sans-serif",
   }),
 };
 
 export default function PredictedValuesScreen() {
   const { state } = useSelectionContext();
+  const [player, setPlayer]= React.useState(null)
+
+
+  useEffect(() => {
+    getPlayerbyName(localStorage.getItem("player")).then((response) => {
+      setPlayer(response.data);
+    });
+  }, []);
+
+
 
   return (
     <Box style={{ margin: "2rem" }}>
@@ -142,19 +147,19 @@ export default function PredictedValuesScreen() {
             }}
           >
             <Avatar
-              src={state.selectedPlayer.photo}
+              src={state.selectedPlayer?.photo}
               style={{ marginTop: "20px" }}
               sx={{ bgcolor: "red", width: 200, height: 230 }}
               variant="square"
-           />
-            
-            <div style={{ marginLeft: '10px' }}>
+            />
+
+            <div style={{ marginLeft: "10px" }}>
               <p
                 style={{
                   fontFamily: "MyFontThin",
                   fontWeight: "800",
                   fontSize: "30px",
-                  marginTop: '-8px'
+                  marginTop: "-8px",
                 }}
               >
                 Player Name : {state.selectedPlayer.player}
@@ -213,12 +218,14 @@ export default function PredictedValuesScreen() {
           // }}
           >
             {/* <Radar data={dataRadar} /> */}
-            <RadarChart
-              captions={captions}
-              data={dataRadar2}
-              size={300}
-              options={someOptions}
-            />
+            {state.selectedPlayer && (
+              <RadarChart
+                captions={captions}
+                data={getPentagonData(state.selectedPlayer, player)}
+                size={350}
+                options={someOptions}
+              />
+            )}
           </div>
         </Grid>
 

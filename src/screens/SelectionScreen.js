@@ -35,6 +35,7 @@ export default function SelectionScreen() {
     setSelectedPlayer(value);
     // context?.updateSelectedPlayer(value)
     dispatch({type: 'selectedPlayerUpdate'}, value)
+    localStorage.setItem('player', value.player)
 
   };
 

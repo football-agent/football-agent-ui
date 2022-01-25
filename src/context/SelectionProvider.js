@@ -3,7 +3,6 @@ import * as React from "react";
 const SelectionContext = React.createContext();
 
 function selectionReducer(state, action) {
-  debugger;
   switch (action.type) {
     case "selectedTeamUpdate": {
       let newState = { ...state };
@@ -23,8 +22,8 @@ function selectionReducer(state, action) {
 
 function SelectionProvider({ children }) {
   const [state, dispatch] = React.useReducer(selectionReducer, {
-    selectedTeam: "some_team",
-    selectedPlayer: "some_player",
+    selectedTeam: null,
+    selectedPlayer: null
   });
   const value = { state, dispatch };
   return (
