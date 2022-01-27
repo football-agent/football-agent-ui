@@ -4,37 +4,31 @@ import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import { useSelectionContext } from "../context/SelectionProvider";
 import {
   Chart as ChartJS,
-  ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
   Tooltip,
   Legend,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
 } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-import { Radar } from "react-chartjs-2";
 
 import RadarChart from "react-svg-radar-chart";
 import "react-svg-radar-chart/build/css/index.css";
 
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { getPlayerbyName } from "../rest/TeamService";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
-  ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
   Tooltip,
-  Legend,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler
+  Legend
 );
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -44,33 +38,8 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   border: "2px solid #455d58",
   borderRadius: "5px",
+  backgroundColor: "#faf7f2",
 }));
-
-const data = {
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-        "rgba(153, 102, 255, 0.2)",
-        "rgba(255, 159, 64, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
 
 export const dataRadar = {
   labels: ["Thing 1", "Thing 2", "Thing 3", "Thing 4", "Thing 5", "Thing 6"],
@@ -85,20 +54,19 @@ export const dataRadar = {
   ],
 };
 
-
-const getPentagonData = (selectedPlayer, playerOnRefresh) => {
+const getPentagonData = (selectedPlayer) => {
   let data = [];
   let dataObject = {
     data: {
-        shooting: selectedPlayer.shooting/100,
-        passing: selectedPlayer.passing/100,
-        dribbling: selectedPlayer.dribbling/100,
-        defending: selectedPlayer.defending/100,
-        physic: selectedPlayer.physic/100
+      shooting: selectedPlayer.shooting / 100,
+      passing: selectedPlayer.passing / 100,
+      dribbling: selectedPlayer.dribbling / 100,
+      defending: selectedPlayer.defending / 100,
+      physic: selectedPlayer.physic / 100,
     },
     meta: { color: "blue" },
   };
-
+  console.log(dataObject);
   data.push(dataObject);
   return data;
 };
@@ -115,23 +83,48 @@ const someOptions = {
   captionProps: () => ({
     className: "caption",
     textAnchor: "middle",
-    fontSize: 10,
+    fontSize: 15,
     fontFamily: "sans-serif",
   }),
 };
 
+export const barOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+      text: "Chart.js Bar Chart",
+    },
+  },
+};
+
+const labels = ["January", "February", "March"];
+
+export const barChartData = {
+  labels,
+  datasets: [
+    {
+      label: "Dataset 1",
+      data: [0.2, 0.4, 0.5],
+      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      minBarLength: 1.5,
+      maxBarThickness: 40
+    },
+  ],
+};
+
 export default function PredictedValuesScreen() {
   const { state } = useSelectionContext();
-  const [player, setPlayer]= React.useState(null)
+  const [player, setPlayer] = React.useState(null);
 
-
-  useEffect(() => {
-    getPlayerbyName(localStorage.getItem("player")).then((response) => {
-      setPlayer(response.data);
-    });
-  }, []);
-
-
+  // useEffect(() => {
+  //   getPlayerbyName(localStorage.getItem("player")).then((response) => {
+  //     setPlayer(response.data);
+  //   });
+  // }, []);
 
   return (
     <Box style={{ margin: "2rem" }}>
@@ -144,11 +137,12 @@ export default function PredictedValuesScreen() {
               display: "flex",
               alignItems: "center",
               marginLeft: "80px",
+              marginTop: "2.3rem",
             }}
           >
             <Avatar
               src={state.selectedPlayer?.photo}
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px", border: "4px solid #455d58" }}
               sx={{ bgcolor: "red", width: 200, height: 230 }}
               variant="square"
             />
@@ -189,7 +183,7 @@ export default function PredictedValuesScreen() {
             <div
               style={{
                 position: "absolute",
-                left: "40%",
+                left: "42%",
                 border: "2px solid #455d58",
                 height: "200px",
                 width: "300px",
@@ -203,8 +197,9 @@ export default function PredictedValuesScreen() {
                   fontSize: "40px",
                 }}
               >
-                Predicted Value: 98178{" "}
+                Predicted Value: 98178 €/week
               </p>
+              <p></p>
             </div>
           </div>
           {/* </CardContent>
@@ -243,32 +238,41 @@ export default function PredictedValuesScreen() {
               Team based statistic
             </p>
             <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{ width: 200, height: 200, margin: "auto" }}>
+              <div style={{ width: 200, height: 250, margin: "auto" }}>
                 <CircularProgressbar
                   value={66}
                   text={"56%"}
                   styles={buildStyles({
-                    pathColor: "red",
+                    pathColor: "#455d58",
                   })}
                 />
+                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
+                  Some Statistic
+                </p>
               </div>
-              <div style={{ width: 200, height: 200, margin: "auto" }}>
+              <div style={{ width: 200, height: 250, margin: "auto" }}>
                 <CircularProgressbar
                   value={66}
                   text={"56%"}
                   styles={buildStyles({
-                    pathColor: "blue",
+                    pathColor: "#455d58",
                   })}
                 />
+                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
+                  Some Statistic
+                </p>
               </div>
-              <div style={{ width: 200, height: 200, margin: "auto" }}>
+              <div style={{ width: 200, height: 250, margin: "auto" }}>
                 <CircularProgressbar
                   value={66}
                   text={"56%"}
                   styles={buildStyles({
-                    pathColor: "green",
+                    pathColor: "#455d58",
                   })}
                 />
+                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
+                  Some Statistic
+                </p>
               </div>
             </div>
           </Item>
@@ -287,14 +291,41 @@ export default function PredictedValuesScreen() {
               League based statistic
             </p>
             <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{ height: "200px", width: "200px", margin: "auto" }}>
-                <Doughnut data={data} />
+              <div style={{ width: 200, height: 250, margin: "auto" }}>
+                <CircularProgressbar
+                  value={66}
+                  text={"56%"}
+                  styles={buildStyles({
+                    pathColor: "#455d58",
+                  })}
+                />
+                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
+                  Some Statistic
+                </p>
               </div>
-              <div style={{ height: "200px", width: "200px", margin: "auto" }}>
-                <Doughnut data={data} />
+              <div style={{ width: 200, height: 250, margin: "auto" }}>
+                <CircularProgressbar
+                  value={66}
+                  text={"56%"}
+                  styles={buildStyles({
+                    pathColor: "#455d58",
+                  })}
+                />
+                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
+                  Some Statistic
+                </p>
               </div>
-              <div style={{ height: "200px", width: "200px", margin: "auto" }}>
-                <Doughnut data={data} />
+              <div style={{ width: 200, height: 250, margin: "auto" }}>
+                <CircularProgressbar
+                  value={66}
+                  text={"56%"}
+                  styles={buildStyles({
+                    pathColor: "#455d58",
+                  })}
+                />
+                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
+                  Some Statistic
+                </p>
               </div>
             </div>
             {/* <div style={{ height: "200px", width: "200px", margin: "auto" }}>
@@ -314,6 +345,17 @@ export default function PredictedValuesScreen() {
             >
               The magic behind our prediction
             </p>
+            <div style={{ display: "flex", marginBottom: "10px" }}>
+              <div style={{margin: 'auto'}}>
+                <Bar options={barOptions} data={barChartData} style={{height: '300px', width: '400px'}} />
+              </div>
+              <div style={{margin: 'auto'}}>
+                <Bar options={barOptions} data={barChartData} style={{height: '300px', width: '400px'}} />
+              </div>
+              <div style={{margin: 'auto'}}>
+                <Bar options={barOptions} data={barChartData} style={{height: '300px', width: '400px'}} />
+              </div>
+            </div>
           </Item>
         </Grid>
       </Grid>

@@ -1,13 +1,26 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import SelectionStepper from "../components/SelectionStepper";
 import { getAllTeams } from "../rest/TeamService";
-import { display } from "@mui/system";
+import { display, height } from "@mui/system";
 import { AlignHorizontalCenter } from "@mui/icons-material";
-import { useSelectionContext } from '../context/SelectionProvider'
+import { useSelectionContext } from "../context/SelectionProvider";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import market  from "../Images/analytics-128.png"
+import piechart  from "../Images/pie-chart.png"
 
 
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  border: "2px solid #455d58",
+  borderRadius: "5px",
+  backgroundColor: "#455d58",
+}));
 
 export default function SelectionScreen() {
   const [isStartPredictButtonClicked, setIsStartPredictButtonClicked] =
@@ -16,8 +29,7 @@ export default function SelectionScreen() {
   const [selectedTeam, setSelectedTeam] = React.useState(null);
   const [selectedPlayer, setSelectedPlayer] = React.useState(null);
   // const context = useContext(SelectionContext)
-  const {dispatch}= useSelectionContext()
-
+  const { dispatch } = useSelectionContext();
 
   const handleStartPredictButtonClick = () => {
     setIsStartPredictButtonClicked(true);
@@ -28,15 +40,14 @@ export default function SelectionScreen() {
 
   const handleTeamSelect = (value) => {
     setSelectedTeam(value);
-    dispatch({type: 'selectedTeamUpdate'}, value)
+    dispatch({ type: "selectedTeamUpdate" }, value);
   };
 
   const handlePlayerSelect = (value) => {
     setSelectedPlayer(value);
     // context?.updateSelectedPlayer(value)
-    dispatch({type: 'selectedPlayerUpdate'}, value)
-    localStorage.setItem('player', value.player)
-
+    dispatch({ type: "selectedPlayerUpdate" }, value);
+    localStorage.setItem("player", value.player);
   };
 
   return (
@@ -47,15 +58,14 @@ export default function SelectionScreen() {
           fontFamily: "MyFont",
           color: "#455d58",
           padding: "1",
-          marginBlock: "20px"
-          
+          marginBlock: "20px",
         }}
       >
         Revolutionizing value quantification
       </p>
-      <hr style={{AlignHorizontalCenter, width:"60%",borderWidth:"2px", display: isStartPredictButtonClicked ? "none" : "inherit"}}/>
+      {/* <hr style={{AlignHorizontalCenter, width:"60%",borderWidth:"2px", display: isStartPredictButtonClicked ? "none" : "inherit"}}/> */}
       {/* //TODO: chnage it to light theme */}
-      <div
+      {/* <div
         style={{
           width: "90%",
           display: isStartPredictButtonClicked ? "none" : "inherit",
@@ -65,7 +75,7 @@ export default function SelectionScreen() {
         }}
       >
         <p
-          style={{ fontSize: "1.3rem", fontFamily: "MyFont", color: "#455d58", margin:"0px" }}
+          style={{ fontSize: "1.3rem", fontFamily: "sans-serif", color: "#455d58", margin:"0px" }}
         >
           The predictor provides football agents, club executives and ambitious
           players data-driven football insights. The predictor analysis the past
@@ -74,18 +84,45 @@ export default function SelectionScreen() {
           future club financials to obtain its fair value.{" "}
         </p>
         
-      </div>
-      <div>
-        <hr style={{display: isStartPredictButtonClicked ? "none" : "inherit", marginTop:"3%",  AlignHorizontalCenter, width:"60%",borderWidth:"2px"}}/> 
-      </div>
-      
-      
+      </div> */}
       <div
         style={{
-          
+          display: isStartPredictButtonClicked ? "none" : "flex",
+          marginTop: "5%",
+        }}
+      >
+        <div style={{ margin: "auto" }}>
+          <Item style={{ height: "420px", width: "700px",  display: 'flex', flexDirection: 'column-reverse' }}>
+           
+            <p style={{ color: "#faf7f2", fontSize: "25px",  marginLeft: '30px',  marginRight: '30px', fontFamily: 'MyFont' }}>
+              We predict the first data driven contract value by leveraging data
+              from the past performance of the player and the team
+            </p>
+            <p style={{ color: "#faf7f2", fontSize: "40px", fontFamily: 'MyFont'}}>SALARY PREDICTION</p>
+            <img src={market} style={{height: '100px', width: '100px', margin: 'auto'}}/>
+          </Item>
+        </div>
+
+        <div style={{ margin: "auto" }}>
+          <Item style={{ height: "420px", width: "700px", display: 'flex', flexDirection: 'column-reverse' }}>
+            <p style={{ color: "#faf7f2", fontSize: "25px", marginLeft: '30px',  marginRight: '30px', fontFamily: 'MyFont' }}>
+              We predict the first data driven contract value by leveraging data
+              from the past performance of the player and the team
+            </p>
+            <p style={{ color: "#faf7f2", fontSize: '40px', fontFamily: 'MyFont'}}>PERFORMANCE BENCHMARKING</p>
+            <img src={piechart} style={{height: '100px', width: '100px', margin: 'auto'}}/>
+          </Item>
+        </div>
+      </div>
+      {/* <div>
+        <hr style={{display: isStartPredictButtonClicked ? "none" : "inherit", marginTop:"3%",  AlignHorizontalCenter, width:"60%",borderWidth:"2px"}}/> 
+      </div> */}
+
+      <div
+        style={{
           left: "43%",
           position: "absolute",
-          marginTop:"5%", 
+          marginTop: "2%",
           // backgroundImage: "url(/PlayerAutocomplete.jpeg)"
           // display: !isStartPredictButtonClicked ? 'none' : 'sese'
           borderColor: "#455d58",
@@ -94,13 +131,11 @@ export default function SelectionScreen() {
           display: isStartPredictButtonClicked ? "none" : "inherit",
         }}
       >
-        
         <Button
           onClick={handleStartPredictButtonClick}
           variant="contained"
           disableElevation
           disabled={isStartPredictButtonClicked}
-          
           // startIcon={<AddIcon />}
           style={{ height: "6rem", width: "15rem", backgroundColor: "#faf7f2" }}
         >
