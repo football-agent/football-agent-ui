@@ -10,8 +10,6 @@ import Paper from "@mui/material/Paper";
 import { useSelectionContext } from "../context/SelectionProvider";
 import { useNavigate } from "react-router-dom";
 
-
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -44,17 +42,15 @@ const getRows = (selections) => {
   return rows;
 };
 
-
-
 export default function SelectionTable(props) {
-    const { dispatch } = useSelectionContext();
-    const navigate = useNavigate();
+  const { dispatch } = useSelectionContext();
+  const navigate = useNavigate();
 
-   async function handleRowClick(team,player ){
-        await dispatch({ type: "selectedTeamUpdate" }, team);
-        await  dispatch({ type: "selectedTeamUpdate" }, player);
-        navigate("/prediction");
-    }
+  const handleRowClick = (team, player) => {
+    dispatch({ type: "selectedTeamUpdate", payload: team });
+    dispatch({ type: "selectedPlayerUpdate" , payload: player});
+    navigate("/prediction");
+  };
 
   return (
     <TableContainer
@@ -69,13 +65,14 @@ export default function SelectionTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {console.log(getRows(props.selections))}
           {getRows(props.selections).map((row) => (
-            <StyledTableRow onClick={()=>handleRowClick(row.team, row.player)}>
-              <StyledTableCell >
-                {row.team.team}
+            <StyledTableRow
+              onClick={() => handleRowClick(row.team, row.player)}
+            >
+              <StyledTableCell>{row.team.team}</StyledTableCell>
+              <StyledTableCell align="right">
+                {row.player.player}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.player.player}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

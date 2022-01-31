@@ -63,7 +63,7 @@ const getPentagonData = (selectedPlayer) => {
       dribbling: selectedPlayer.dribbling / 100,
       defending: selectedPlayer.defending / 100,
       physic: selectedPlayer.physic / 100,
-      pace: selectedPlayer.pace/100
+      pace: selectedPlayer.pace / 100,
     },
     meta: { color: "blue" },
   };
@@ -79,9 +79,8 @@ const captions = {
   passing: "Passing",
   physic: "Physic",
   defending: "Defending",
-  pace: "Pace"
+  pace: "Pace",
 };
-
 
 const someOptions = {
   captionProps: () => ({
@@ -115,13 +114,14 @@ export const barChartData = {
       data: [0.2, 0.4, 0.5],
       backgroundColor: "rgba(255, 99, 132, 0.5)",
       minBarLength: 1.5,
-      maxBarThickness: 40
+      maxBarThickness: 40,
     },
   ],
 };
 
 export default function PredictedValuesScreen() {
   const { state } = useSelectionContext();
+
   const [player, setPlayer] = React.useState(null);
 
   // useEffect(() => {
@@ -160,7 +160,7 @@ export default function PredictedValuesScreen() {
                   marginTop: "-8px",
                 }}
               >
-                Player Name : {state.selectedPlayer.player}
+                Player Name : {state.selectedPlayer?.player}
               </p>
               <p
                 style={{
@@ -170,7 +170,7 @@ export default function PredictedValuesScreen() {
                   textAlign: "left",
                 }}
               >
-                Age : {state.selectedPlayer.age}
+                Age : {state.selectedPlayer?.age}
               </p>
               <p
                 style={{
@@ -180,7 +180,7 @@ export default function PredictedValuesScreen() {
                   textAlign: "left",
                 }}
               >
-                Club : {state.selectedPlayer.squad}
+                Club : {state.selectedPlayer?.squad}
               </p>
             </div>
 
@@ -350,14 +350,26 @@ export default function PredictedValuesScreen() {
               The magic behind our prediction
             </p>
             <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{margin: 'auto'}}>
-                <Bar options={barOptions} data={barChartData} style={{height: '300px', width: '400px'}} />
+              <div style={{ margin: "auto" }}>
+                <Bar
+                  options={barOptions}
+                  data={barChartData}
+                  style={{ height: "300px", width: "400px" }}
+                />
               </div>
-              <div style={{margin: 'auto'}}>
-                <Bar options={barOptions} data={barChartData} style={{height: '300px', width: '400px'}} />
+              <div style={{ margin: "auto" }}>
+                <Bar
+                  options={barOptions}
+                  data={barChartData}
+                  style={{ height: "300px", width: "400px" }}
+                />
               </div>
-              <div style={{margin: 'auto'}}>
-                <Bar options={barOptions} data={barChartData} style={{height: '300px', width: '400px'}} />
+              <div style={{ margin: "auto" }}>
+                <Bar
+                  options={barOptions}
+                  data={barChartData}
+                  style={{ height: "300px", width: "400px" }}
+                />
               </div>
             </div>
           </Item>
