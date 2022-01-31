@@ -31,8 +31,8 @@ export default function SelectionStepper(props) {
     if (activeStep === 1) {
       if (isChecked) {
         addSelection(localStorage.getItem("username"), {
-          selectedTeam: selectedTeam.team,
-          selectedPlayer: selectedPlayer.player
+          selectedTeam: selectedTeam,
+          selectedPlayer: selectedPlayer
         }).then(() => {
           console.log("Selection Saved");
         });

@@ -50,9 +50,9 @@ export default function SelectionTable(props) {
     const { dispatch } = useSelectionContext();
     const navigate = useNavigate();
 
-    const handleRowClick=(team,player )=>{
-        dispatch({ type: "selectedTeamUpdate" }, team);
-        dispatch({ type: "selectedTeamUpdate" }, player);
+   async function handleRowClick(team,player ){
+        await dispatch({ type: "selectedTeamUpdate" }, team);
+        await  dispatch({ type: "selectedTeamUpdate" }, player);
         navigate("/prediction");
     }
 
@@ -71,11 +71,11 @@ export default function SelectionTable(props) {
         <TableBody>
           {console.log(getRows(props.selections))}
           {getRows(props.selections).map((row) => (
-            <StyledTableRow onClick={handleRowClick}>
+            <StyledTableRow onClick={()=>handleRowClick(row.team, row.player)}>
               <StyledTableCell >
-                {row.team}
+                {row.team.team}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.player}</StyledTableCell>
+              <StyledTableCell align="right">{row.player.player}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
