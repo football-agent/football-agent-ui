@@ -65,7 +65,8 @@ export default function SelectionStepper(props) {
     if (activeStep === 0) {
       return (
         <React.Fragment>
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
+          {/* <div style={{ display: "flex", flexWrap: "wrap", flexDirection: 'row' }}> */}
+          <div style={{ display: "grid", gridTemplateColumns: 'repeat(8, 1fr)' , gap: '10px', rowGap: '10px'}}>
             {props.teams.map((team) => {
               return (
                 <TeamAvatar

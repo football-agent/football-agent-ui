@@ -63,6 +63,7 @@ const getPentagonData = (selectedPlayer) => {
       dribbling: selectedPlayer.dribbling / 100,
       defending: selectedPlayer.defending / 100,
       physic: selectedPlayer.physic / 100,
+      pace: selectedPlayer.pace/100
     },
     meta: { color: "blue" },
   };
@@ -77,7 +78,10 @@ const captions = {
   dribbling: "Dribbling",
   passing: "Passing",
   physic: "Physic",
+  defending: "Defending",
+  pace: "Pace"
 };
+
 
 const someOptions = {
   captionProps: () => ({
