@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
@@ -21,6 +22,7 @@ import "react-svg-radar-chart/build/css/index.css";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Bar } from "react-chartjs-2";
+import { getPredictionByPlayer } from "../rest/PredictionService";
 
 ChartJS.register(
   CategoryScale,
@@ -123,12 +125,13 @@ export default function PredictedValuesScreen() {
   const { state } = useSelectionContext();
 
   const [player, setPlayer] = React.useState(null);
+  const [predictedValue, setPredictedValue] = React.useState(0)
 
-  // useEffect(() => {
-  //   getPlayerbyName(localStorage.getItem("player")).then((response) => {
-  //     setPlayer(response.data);
-  //   });
-  // }, []);
+  React.useEffect(() => {
+   getPredictionByPlayer(state.selectedPlayer.player).then(response=>{
+     setPredictedValue(Math.abs(parseInt(response.data.predictedValue)))
+   })
+  }, []);
 
   return (
     <Box style={{ margin: "2rem" }}>
@@ -182,6 +185,16 @@ export default function PredictedValuesScreen() {
               >
                 Club : {state.selectedPlayer?.squad}
               </p>
+              <p
+                style={{
+                  fontFamily: "MyFontThin",
+                  fontWeight: "800",
+                  fontSize: "25px",
+                  textAlign: "left",
+                }}
+              >
+                Current Wage : {state.selectedPlayer?.wage_eur}
+              </p>
             </div>
 
             <div
@@ -201,7 +214,7 @@ export default function PredictedValuesScreen() {
                   fontSize: "40px",
                 }}
               >
-                Predicted Value: 98178 €/week
+                Predicted Value: {predictedValue} €/week
               </p>
               <p></p>
             </div>
