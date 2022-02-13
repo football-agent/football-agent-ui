@@ -71,6 +71,7 @@ export default function SelectionStepper(props) {
               return (
                 <TeamAvatar
                   teamName={team.team}
+                  teamImage={team.logo}
                   handleTeamSelect={handleTeamSelect}
                   selectedTeam={selectedTeam}
                 />

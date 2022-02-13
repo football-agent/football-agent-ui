@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
@@ -100,16 +99,18 @@ export const barOptions = {
       position: "top",
     },
     title: {
-      display: true,
+      display: false,
       text: "Chart.js Bar Chart",
     },
   },
 };
 
-const labels = ["January", "February", "March"];
+// const goalLabels = ["goals_min", "goals_25", "goals_50", "goals_75", "goals_max"];
+// const assistLabels = ["assist_min", "assists_25", "assists_50", "assists_75", "assists_max"];
+const baseLabels = ["_min", "_25", "_50", "_75", "_max"];
 
 export const barChartData = {
-  labels,
+  labels: baseLabels,
   datasets: [
     {
       label: "Dataset 1",
@@ -125,12 +126,52 @@ export default function PredictedValuesScreen() {
   const { state } = useSelectionContext();
 
   const [player, setPlayer] = React.useState(null);
-  const [predictedValue, setPredictedValue] = React.useState(0)
+  const [predictedValue, setPredictedValue] = React.useState(0);
+
+  const setBarChartData = (fieldName) => {
+    const barLabels = baseLabels.map((baseLabel) => {
+      return fieldName + baseLabel;
+    });
+
+    const playerPosition = state.selectedPlayer.position;
+    let statToConsider;
+    let stats = state.selectedTeam.stats;
+    for (let i = 0; i < stats.length; i++) {
+      if (stats[i].pos === playerPosition) {
+        statToConsider = stats[i];
+        break;
+      }
+    }
+
+    let values = [];
+
+    for (let key of Object.keys(statToConsider)) {
+      if (key.includes(fieldName)) {
+        values.push(statToConsider[key]);
+      }
+    }
+
+    let barDataSet = [];
+    let barDataSetObject = {
+      label: fieldName,
+      data: values,
+      backgroundColor: "blue",
+      minBarLength: 1.5,
+      maxBarThickness: 60,
+    };
+    barDataSet.push(barDataSetObject);
+
+    let barChartObject = {};
+    barChartObject.labels = barLabels;
+    barChartObject.datasets = barDataSet;
+    console.log(barChartObject);
+    return barChartObject;
+  };
 
   React.useEffect(() => {
-   getPredictionByPlayer(state.selectedPlayer.player).then(response=>{
-     setPredictedValue(Math.abs(parseInt(response.data.predictedValue)))
-   })
+    getPredictionByPlayer(state.selectedPlayer.player).then((response) => {
+      setPredictedValue(Math.abs(parseInt(response.data.predictedValue) / 10));
+    });
   }, []);
 
   return (
@@ -150,7 +191,7 @@ export default function PredictedValuesScreen() {
             <Avatar
               src={state.selectedPlayer?.photo}
               style={{ marginTop: "20px", border: "4px solid #455d58" }}
-              sx={{ bgcolor: "red", width: 200, height: 230 }}
+              sx={{ bgcolor: "red", width: 200, height: 260 }}
               variant="square"
             />
 
@@ -240,117 +281,49 @@ export default function PredictedValuesScreen() {
             )}
           </div>
         </Grid>
-
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <Item>
             <p
               style={{
-                marginTop: "5px",
                 fontFamily: "MyFont",
                 fontWeight: "900",
-                fontSize: "30px",
-                color: "#455d58",
+                fontSize: "20px",
               }}
             >
-              Team based statistic
+              Team Based Statistics
             </p>
             <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{ width: 200, height: 250, margin: "auto" }}>
-                <CircularProgressbar
-                  value={66}
-                  text={"56%"}
-                  styles={buildStyles({
-                    pathColor: "#455d58",
-                  })}
+              <div style={{ margin: "auto" }}>
+                <Bar
+                  options={barOptions}
+                  data={setBarChartData("goals")}
+                  style={{ height: "300px", width: "400px" }}
                 />
-                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
-                  Some Statistic
-                </p>
               </div>
-              <div style={{ width: 200, height: 250, margin: "auto" }}>
-                <CircularProgressbar
-                  value={66}
-                  text={"56%"}
-                  styles={buildStyles({
-                    pathColor: "#455d58",
-                  })}
+              <div style={{ margin: "auto" }}>
+                <Bar
+                  options={barOptions}
+                  data={setBarChartData("assists")}
+                  style={{ height: "300px", width: "400px" }}
                 />
-                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
-                  Some Statistic
-                </p>
               </div>
-              <div style={{ width: 200, height: 250, margin: "auto" }}>
-                <CircularProgressbar
-                  value={66}
-                  text={"56%"}
-                  styles={buildStyles({
-                    pathColor: "#455d58",
-                  })}
+              <div style={{ margin: "auto" }}>
+                <Bar
+                  options={barOptions}
+                  data={setBarChartData("gca")}
+                  style={{ height: "300px", width: "400px" }}
                 />
-                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
-                  Some Statistic
-                </p>
+              </div>
+              <div style={{ margin: "auto" }}>
+                <Bar
+                  options={barOptions}
+                  data={setBarChartData("passes")}
+                  style={{ height: "300px", width: "400px" }}
+                />
               </div>
             </div>
           </Item>
         </Grid>
-        <Grid item xs={6}>
-          <Item>
-            <p
-              style={{
-                marginTop: "5px",
-                fontFamily: "MyFont",
-                fontWeight: "900",
-                fontSize: "30px",
-                color: "#455d58",
-              }}
-            >
-              League based statistic
-            </p>
-            <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{ width: 200, height: 250, margin: "auto" }}>
-                <CircularProgressbar
-                  value={66}
-                  text={"56%"}
-                  styles={buildStyles({
-                    pathColor: "#455d58",
-                  })}
-                />
-                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
-                  Some Statistic
-                </p>
-              </div>
-              <div style={{ width: 200, height: 250, margin: "auto" }}>
-                <CircularProgressbar
-                  value={66}
-                  text={"56%"}
-                  styles={buildStyles({
-                    pathColor: "#455d58",
-                  })}
-                />
-                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
-                  Some Statistic
-                </p>
-              </div>
-              <div style={{ width: 200, height: 250, margin: "auto" }}>
-                <CircularProgressbar
-                  value={66}
-                  text={"56%"}
-                  styles={buildStyles({
-                    pathColor: "#455d58",
-                  })}
-                />
-                <p style={{ fontSize: "20px", fontFamily: "MyFont" }}>
-                  Some Statistic
-                </p>
-              </div>
-            </div>
-            {/* <div style={{ height: "200px", width: "200px", margin: "auto" }}>
-              <Doughnut data={data} />
-            </div> */}
-          </Item>
-        </Grid>
-
         <Grid item xs={12}>
           <Item>
             <p
@@ -362,7 +335,7 @@ export default function PredictedValuesScreen() {
             >
               The magic behind our prediction
             </p>
-            <div style={{ display: "flex", marginBottom: "10px" }}>
+            {/* <div style={{ display: "flex", marginBottom: "10px" }}>
               <div style={{ margin: "auto" }}>
                 <Bar
                   options={barOptions}
@@ -384,7 +357,14 @@ export default function PredictedValuesScreen() {
                   style={{ height: "300px", width: "400px" }}
                 />
               </div>
-            </div>
+              <div style={{ margin: "auto" }}>
+                <Bar
+                  options={barOptions}
+                  data={barChartData}
+                  style={{ height: "300px", width: "400px" }}
+                />
+              </div>
+            </div> */}
           </Item>
         </Grid>
       </Grid>
