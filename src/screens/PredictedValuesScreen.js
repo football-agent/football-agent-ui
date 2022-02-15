@@ -83,6 +83,16 @@ const captions = {
   pace: "Pace",
 };
 
+const positionMetricMapping = {
+  //   FW: Goals, asssits, gca
+  // MF: Goals, assists, passes
+  // DF: Passes, Aerials won, players dribbled
+
+  FW: ["goals", "assists", "gca"],
+  MF: ["goals", "assists", "passes"],
+  DF: ["passes", "aerials_won_pct", "players_dribbled_past"],
+};
+
 const someOptions = {
   captionProps: () => ({
     className: "caption",
@@ -293,7 +303,20 @@ export default function PredictedValuesScreen() {
               Team Based Statistics
             </p>
             <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{ margin: "auto" }}>
+              {positionMetricMapping[
+                state.selectedPlayer.position.split(",")[0]
+              ].map((metric) => {
+                return (
+                  <div style={{ margin: "auto" }}>
+                    <Bar
+                      options={barOptions}
+                      data={setBarChartData(metric)}
+                      style={{ height: "300px", width: "400px" }}
+                    />
+                  </div>
+                );
+              })}
+              {/* <div style={{ margin: "auto" }}>
                 <Bar
                   options={barOptions}
                   data={setBarChartData("goals")}
@@ -320,7 +343,7 @@ export default function PredictedValuesScreen() {
                   data={setBarChartData("passes")}
                   style={{ height: "300px", width: "400px" }}
                 />
-              </div>
+              </div> */}
             </div>
           </Item>
         </Grid>
@@ -333,38 +356,23 @@ export default function PredictedValuesScreen() {
                 fontSize: "20px",
               }}
             >
-              The magic behind our prediction
+              Player based Statistics
             </p>
-            {/* <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{ margin: "auto" }}>
-                <Bar
-                  options={barOptions}
-                  data={barChartData}
-                  style={{ height: "300px", width: "400px" }}
+            <div style={{ display: "flex", marginBottom: "10px" }}>
+
+              <div style={{ width: 200, height: 200, margin: "auto" }}>
+                {
+                  
+                }
+                <CircularProgressbar
+                  value={66}
+                  text={"56%"}
+                  styles={buildStyles({
+                    pathColor: "red",
+                  })}
                 />
               </div>
-              <div style={{ margin: "auto" }}>
-                <Bar
-                  options={barOptions}
-                  data={barChartData}
-                  style={{ height: "300px", width: "400px" }}
-                />
-              </div>
-              <div style={{ margin: "auto" }}>
-                <Bar
-                  options={barOptions}
-                  data={barChartData}
-                  style={{ height: "300px", width: "400px" }}
-                />
-              </div>
-              <div style={{ margin: "auto" }}>
-                <Bar
-                  options={barOptions}
-                  data={barChartData}
-                  style={{ height: "300px", width: "400px" }}
-                />
-              </div>
-            </div> */}
+            </div>
           </Item>
         </Grid>
       </Grid>
