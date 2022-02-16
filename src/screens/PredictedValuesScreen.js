@@ -4,6 +4,12 @@ import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import { useSelectionContext } from "../context/SelectionProvider";
 import {
   Chart as ChartJS,
@@ -54,6 +60,14 @@ export const dataRadar = {
     },
   ],
 };
+
+function titleCase(str) {
+  return str
+      .split('_')
+      .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+}
+
 
 const getPentagonData = (selectedPlayer) => {
   let data = [];
@@ -115,6 +129,47 @@ export const barOptions = {
   },
 };
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#455d58",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+const metricsToShow = [
+  "shots_total",
+  "assisted_shots",
+  "tackles",
+  "passes_live",
+  "pressure_regains",
+  "gca",
+];
+
+const getRows = (selectedPlayer) => {
+  let rows = [];
+  let row = {};
+  for (let key of Object.keys(selectedPlayer)) {
+    if (metricsToShow.includes(key)) {
+      row[titleCase(key)] = selectedPlayer[key];
+    }
+  }
+  rows.push(row);
+  return rows;
+};
+
 // const goalLabels = ["goals_min", "goals_25", "goals_50", "goals_75", "goals_max"];
 // const assistLabels = ["assist_min", "assists_25", "assists_50", "assists_75", "assists_max"];
 const baseLabels = ["_min", "_25", "_50", "_75", "_max"];
@@ -165,7 +220,7 @@ export default function PredictedValuesScreen() {
     let barDataSetObject = {
       label: fieldName,
       data: values,
-      backgroundColor: "blue",
+      backgroundColor: "#455d58",
       minBarLength: 1.5,
       maxBarThickness: 60,
     };
@@ -179,8 +234,11 @@ export default function PredictedValuesScreen() {
   };
 
   React.useEffect(() => {
-    getPredictionByPlayer(state.selectedPlayer.player).then((response) => {
-      setPredictedValue(Math.abs(parseInt(response.data.predictedValue) / 10));
+    getPredictionByPlayer(
+      state.selectedPlayer.player,
+      state.selectedTeam.team
+    ).then((response) => {
+      setPredictedValue(Math.round(response.data.predictedValue));
     });
   }, []);
 
@@ -300,7 +358,7 @@ export default function PredictedValuesScreen() {
                 fontSize: "20px",
               }}
             >
-              Team Based Statistics
+              Team Based Statistics for {state.selectedTeam.team}
             </p>
             <div style={{ display: "flex", marginBottom: "10px" }}>
               {positionMetricMapping[
@@ -356,22 +414,40 @@ export default function PredictedValuesScreen() {
                 fontSize: "20px",
               }}
             >
-              Player based Statistics
+              Player based Statistics for {state.selectedPlayer.player}
             </p>
             <div style={{ display: "flex", marginBottom: "10px" }}>
-
-              <div style={{ width: 200, height: 200, margin: "auto" }}>
-                {
-                  
-                }
-                <CircularProgressbar
-                  value={66}
-                  text={"56%"}
-                  styles={buildStyles({
-                    pathColor: "red",
-                  })}
-                />
-              </div>
+              <TableContainer
+                component={Paper}
+                style={{ width: "60%", margin: "2rem auto" }}
+              >
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      {metricsToShow.map((metric) => {
+                        return <StyledTableCell>{titleCase(metric)}</StyledTableCell>;
+                      })}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {getRows(state.selectedPlayer).map((row) => (
+                      <StyledTableRow>
+                        {/* <StyledTableCell>{row.team.team}</StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.player.player}
+                        </StyledTableCell> */}
+                        {metricsToShow.map((metric) => {
+                          return (
+                            <StyledTableCell >
+                              {row[titleCase(metric)]}
+                            </StyledTableCell>
+                          );
+                        })}
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </div>
           </Item>
         </Grid>

@@ -6,6 +6,7 @@ import SelectionScreen from "./screens/SelectionScreen";
 import PredictedValuesScreen from "./screens/PredictedValuesScreen";
 import { SelectionProvider } from "./context/SelectionProvider";
 import SavedSelectionsScreen from "./screens/SavedSelectionsScreen";
+import PredictionExplanationScreen from "./screens/PredictionExplanationScreen";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<SelectionProvider><SelectionScreen/> </SelectionProvider>} />
           <Route path="/prediction" element={<SelectionProvider><PredictedValuesScreen/></SelectionProvider>} />
           <Route path="/saved-selections/:username" element={<SelectionProvider><SavedSelectionsScreen/></SelectionProvider>} />
+          <Route path="/explain" element={<PredictionExplanationScreen/>} />
           
         </Routes>
       </BrowserRouter>

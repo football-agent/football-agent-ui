@@ -8,9 +8,8 @@ import { AlignHorizontalCenter } from "@mui/icons-material";
 import { useSelectionContext } from "../context/SelectionProvider";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import market  from "../Images/analytics-128.png"
-import piechart  from "../Images/pie-chart.png"
-
+import market from "../Images/analytics-128.png";
+import piechart from "../Images/pie-chart.png";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -92,25 +91,76 @@ export default function SelectionScreen() {
         }}
       >
         <div style={{ margin: "auto" }}>
-          <Item style={{ height: "420px", width: "700px",  display: 'flex', flexDirection: 'column-reverse' }}>
-           
-            <p style={{ color: "#faf7f2", fontSize: "25px",  marginLeft: '30px',  marginRight: '30px', fontFamily: 'MyFont' }}>
+          <Item
+            style={{
+              height: "420px",
+              width: "700px",
+              display: "flex",
+              flexDirection: "column-reverse",
+            }}
+          >
+            <p
+              style={{
+                color: "#faf7f2",
+                fontSize: "25px",
+                marginLeft: "30px",
+                marginRight: "30px",
+                fontFamily: "MyFont",
+              }}
+            >
               We predict the first data driven contract value by leveraging data
               from the past performance of the player and the team
             </p>
-            <p style={{ color: "#faf7f2", fontSize: "40px", fontFamily: 'MyFont'}}>SALARY PREDICTION</p>
-            <img src={market} style={{height: '100px', width: '100px', margin: 'auto'}}/>
+            <p
+              style={{
+                color: "#faf7f2",
+                fontSize: "40px",
+                fontFamily: "MyFont",
+              }}
+            >
+              SALARY PREDICTION
+            </p>
+            <img
+              src={market}
+              style={{ height: "100px", width: "100px", margin: "auto" }}
+            />
           </Item>
         </div>
 
         <div style={{ margin: "auto" }}>
-          <Item style={{ height: "420px", width: "700px", display: 'flex', flexDirection: 'column-reverse' }}>
-            <p style={{ color: "#faf7f2", fontSize: "25px", marginLeft: '30px',  marginRight: '30px', fontFamily: 'MyFont' }}>
+          <Item
+            style={{
+              height: "420px",
+              width: "700px",
+              display: "flex",
+              flexDirection: "column-reverse",
+            }}
+          >
+            <p
+              style={{
+                color: "#faf7f2",
+                fontSize: "25px",
+                marginLeft: "30px",
+                marginRight: "30px",
+                fontFamily: "MyFont",
+              }}
+            >
               We predict the first data driven contract value by leveraging data
               from the past performance of the player and the team
             </p>
-            <p style={{ color: "#faf7f2", fontSize: '40px', fontFamily: 'MyFont'}}>PERFORMANCE BENCHMARKING</p>
-            <img src={piechart} style={{height: '100px', width: '100px', margin: 'auto'}}/>
+            <p
+              style={{
+                color: "#faf7f2",
+                fontSize: "40px",
+                fontFamily: "MyFont",
+              }}
+            >
+              PERFORMANCE BENCHMARKING
+            </p>
+            <img
+              src={piechart}
+              style={{ height: "100px", width: "100px", margin: "auto" }}
+            />
           </Item>
         </div>
       </div>
