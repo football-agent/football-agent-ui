@@ -160,7 +160,8 @@ const metricsToShow = [
   "passes_live",
   "pressure_regains",
   "gca",
-  "goals"
+  "goals",
+  "passes"
 ];
 
 const getRows = (selectedPlayer) => {
