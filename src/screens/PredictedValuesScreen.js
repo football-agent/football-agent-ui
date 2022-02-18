@@ -68,6 +68,10 @@ function titleCase(str) {
       .join(' ');
 }
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 
 const getPentagonData = (selectedPlayer) => {
   let data = [];
@@ -156,6 +160,7 @@ const metricsToShow = [
   "passes_live",
   "pressure_regains",
   "gca",
+  "goals"
 ];
 
 const getRows = (selectedPlayer) => {
@@ -198,7 +203,7 @@ export default function PredictedValuesScreen() {
       return fieldName + baseLabel;
     });
 
-    const playerPosition = state.selectedPlayer.position;
+    const playerPosition = state.selectedPlayer.position.split(",")[0];
     let statToConsider;
     let stats = state.selectedTeam.stats;
     for (let i = 0; i < stats.length; i++) {
@@ -212,7 +217,7 @@ export default function PredictedValuesScreen() {
 
     for (let key of Object.keys(statToConsider)) {
       if (key.includes(fieldName)) {
-        values.push(statToConsider[key]);
+        values.push(statToConsider[key]/3);
       }
     }
 
@@ -238,7 +243,7 @@ export default function PredictedValuesScreen() {
       state.selectedPlayer.player,
       state.selectedTeam.team
     ).then((response) => {
-      setPredictedValue(Math.round(response.data.predictedValue));
+      setPredictedValue(numberWithCommas(Math.round(response.data.predictedValue)));
     });
   }, []);
 
@@ -302,7 +307,7 @@ export default function PredictedValuesScreen() {
                   textAlign: "left",
                 }}
               >
-                Current Wage : {state.selectedPlayer?.wage_eur}
+                Current Market Value : {numberWithCommas(state.selectedPlayer?.value_eur)} €
               </p>
             </div>
 
@@ -323,7 +328,7 @@ export default function PredictedValuesScreen() {
                   fontSize: "40px",
                 }}
               >
-                Predicted Value: {predictedValue} €/week
+                Predicted Value: {predictedValue} €
               </p>
               <p></p>
             </div>

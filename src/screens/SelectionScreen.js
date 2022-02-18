@@ -108,8 +108,8 @@ export default function SelectionScreen() {
                 fontFamily: "MyFont",
               }}
             >
-              We predict the first data driven contract value by leveraging data
-              from the past performance of the player and the team
+              We predict the first context based data driven market value by leveraging data
+              from the past performance of the player and contextualizing to the team
             </p>
             <p
               style={{
@@ -118,7 +118,7 @@ export default function SelectionScreen() {
                 fontFamily: "MyFont",
               }}
             >
-              SALARY PREDICTION
+              MARKET VALUE PREDICTION
             </p>
             <img
               src={market}
@@ -145,8 +145,9 @@ export default function SelectionScreen() {
                 fontFamily: "MyFont",
               }}
             >
-              We predict the first data driven contract value by leveraging data
-              from the past performance of the player and the team
+              We display the current player and team based statitics for 
+              efficient comparison between the overall team performance
+              and current player performance
             </p>
             <p
               style={{
