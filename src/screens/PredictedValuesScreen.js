@@ -63,15 +63,14 @@ export const dataRadar = {
 
 function titleCase(str) {
   return str
-      .split('_')
-      .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ');
+    .split("_")
+    .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 }
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 
 const getPentagonData = (selectedPlayer) => {
   let data = [];
@@ -161,7 +160,7 @@ const metricsToShow = [
   "pressure_regains",
   "gca",
   "goals",
-  "passes"
+  "passes",
 ];
 
 const getRows = (selectedPlayer) => {
@@ -218,7 +217,7 @@ export default function PredictedValuesScreen() {
 
     for (let key of Object.keys(statToConsider)) {
       if (key.includes(fieldName)) {
-        values.push(statToConsider[key]/3);
+        values.push(statToConsider[key] / 3);
       }
     }
 
@@ -244,7 +243,9 @@ export default function PredictedValuesScreen() {
       state.selectedPlayer.player,
       state.selectedTeam.team
     ).then((response) => {
-      setPredictedValue(numberWithCommas(Math.round(response.data.predictedValue)));
+      setPredictedValue(
+        numberWithCommas(Math.round(response.data.predictedValue))
+      );
     });
   }, []);
 
@@ -276,6 +277,7 @@ export default function PredictedValuesScreen() {
                   fontWeight: "800",
                   fontSize: "30px",
                   marginTop: "-8px",
+                
                 }}
               >
                 Player Name : {state.selectedPlayer?.player}
@@ -308,7 +310,8 @@ export default function PredictedValuesScreen() {
                   textAlign: "left",
                 }}
               >
-                Current Market Value : {numberWithCommas(state.selectedPlayer?.value_eur)} €
+                Current Market Value :{" "}
+                {numberWithCommas(state.selectedPlayer?.value_eur)} €
               </p>
             </div>
 
@@ -322,6 +325,7 @@ export default function PredictedValuesScreen() {
                 borderRadius: "5px",
               }}
             >
+              <p>{}</p>
               <p
                 style={{
                   fontFamily: "MyFontThin",
@@ -364,7 +368,7 @@ export default function PredictedValuesScreen() {
                 fontSize: "20px",
               }}
             >
-              Team Based Statistics for {state.selectedTeam.team}
+              Team Based Statistics for <p style={{ fontWeight: "1900",fontSize: "30px",}}>{state.selectedTeam.team}</p>
             </p>
             <div style={{ display: "flex", marginBottom: "10px" }}>
               {positionMetricMapping[
@@ -431,7 +435,9 @@ export default function PredictedValuesScreen() {
                   <TableHead>
                     <TableRow>
                       {metricsToShow.map((metric) => {
-                        return <StyledTableCell>{titleCase(metric)}</StyledTableCell>;
+                        return (
+                          <StyledTableCell>{titleCase(metric)}</StyledTableCell>
+                        );
                       })}
                     </TableRow>
                   </TableHead>
@@ -444,7 +450,7 @@ export default function PredictedValuesScreen() {
                         </StyledTableCell> */}
                         {metricsToShow.map((metric) => {
                           return (
-                            <StyledTableCell >
+                            <StyledTableCell>
                               {row[titleCase(metric)]}
                             </StyledTableCell>
                           );
