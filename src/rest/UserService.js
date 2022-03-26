@@ -1,12 +1,12 @@
 import axios from "axios";
 
 export const registerUser = (userObject) => {
-  const url = "http://localhost:8080/v1/football_agent/user/register";
+  const url = "https://football-agent-services.herokuapp.com/v1/football_agent/user/register";
   return axios.post(url, userObject);
 };
 
 export const authenticateUser = (userLoginRequest) => {
-  const url = "http://localhost:8080/v1/football_agent/user/authenticate";
+  const url = "https://football-agent-services.herokuapp.com/v1/football_agent/user/authenticate";
   return axios.post(url, userLoginRequest);
 };
 
@@ -17,7 +17,7 @@ export const addSelection = (username, selectionObject) => {
         },
       };
 
-  const url = `http://localhost:8080/v1/football_agent/user/${username}/add_selection`;
+  const url = `https://football-agent-services.herokuapp.com/v1/football_agent/user/${username}/add_selection`;
   return axios.post(url, selectionObject, config);
 };
 
@@ -27,6 +27,6 @@ export const getAllSelections = (username) => {
       Authorization: localStorage.getItem("token"),
     },
   };
-  const url = `http://localhost:8080/v1/football_agent/user/${username}/get_all_selections`;
+  const url = `https://football-agent-services.herokuapp.com/v1/football_agent/user/${username}/get_all_selections`;
   return axios.get(url, config);
 };
